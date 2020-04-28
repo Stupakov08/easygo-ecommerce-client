@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { lazy, Suspense } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import Header from './components/header/header.component';
 import './App.css';
+import Spinner from './components/spinner/spinner.component';
+import ErrorBoundary from './components/error-boundary/error-boundary.component';
+
+const SignInAndSignUpPage = lazy(() =>
+	import('./pages/sign-in-sign-up/sign-in-and-sign-up.component')
+);
+const HomePage = lazy(() => import('./pages/homepage/hompage.component'));
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div>
+			<Header></Header>
+			<Switch>
+				<ErrorBoundary>
+					<Suspense fallback={<Spinner />}>
+						<Route
+							exact
+							path='/signin'
+							render={() => <SignInAndSignUpPage />}
+						/>
+						<Route exact path='/' render={() => <HomePage />} />
+					</Suspense>
+				</ErrorBoundary>
+			</Switch>
+		</div>
+	);
 }
 
 export default App;
