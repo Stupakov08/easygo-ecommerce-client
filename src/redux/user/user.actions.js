@@ -1,6 +1,11 @@
 import UserActionTypes from './user.types';
 import { getFingerprint } from '../../utils/getFingerPrint';
-import { getTokens, fetchWithAuth } from '../../utils/getTokenData';
+import {
+	getTokens,
+	signUpAndgetTokens,
+	fetchWithAuth,
+	signOutUser,
+} from '../../utils/AuthManager';
 import jwt from 'jwt-decode';
 
 export const emailSignInStart = () => ({
@@ -15,9 +20,12 @@ export const emailSignInSuccess = (user) => ({
 export const emailSignInFailer = (err) => ({
 	type: UserActionTypes.SIGN_IN_FAILURE,
 	payload: {
-		loading: false,
 		error: err,
 	},
+});
+
+export const signOutStart = (err) => ({
+	type: UserActionTypes.SIGN_OUT,
 });
 
 export const emailSignIn = ({ email, password }) => {
@@ -33,22 +41,41 @@ export const emailSignIn = ({ email, password }) => {
 				dispatch(emailSignInSuccess(user));
 			})
 			.catch((err) => {
-				debugger;
 				const message = err.response.error || err.response.message;
 				dispatch(emailSignInFailer(message));
 			});
 	};
 };
-export const checkPrivateCall = () => {
-	debugger;
+
+export const emailSignUp = ({ email, password, passwordconf, name }) => {
 	return async (dispatch) => {
-		fetchWithAuth(`${process.env.REACT_APP_SERVER_URI}/check`)
-			.then((res) => {
-				debugger;
+		let fingerprint = await getFingerprint();
+		signUpAndgetTokens({ email, password, passwordconf, name, fingerprint })
+			.then(({ accessToken }) => {
+				const user = jwt(accessToken).payload;
+				dispatch(emailSignInSuccess(user));
 			})
 			.catch((err) => {
-				debugger;
+				const message = err.response.error || err.response.message;
+				dispatch(emailSignInFailer(message));
 			});
+	};
+};
+
+export const signOut = () => {
+	return async (dispatch) => {
+		dispatch(signOutStart());
+		signOutUser().catch((err) => {});
+	};
+};
+
+export const checkPrivateCall = () => {
+	return async (dispatch) => {
+		fetchWithAuth(`${process.env.REACT_APP_SERVER_URI}/check`, {
+			method: 'POST',
+		})
+			.then((res) => {})
+			.catch((err) => {});
 	};
 };
 

@@ -3,7 +3,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 
 const CustomAlert = ({ error, severity, onClose }) => {
-	debugger;
 	const [open, setOpen] = useState(true);
 
 	return (
@@ -12,7 +11,6 @@ const CustomAlert = ({ error, severity, onClose }) => {
 			autoHideDuration={6000}
 			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
 			onExit={() => {
-				debugger;
 				onClose();
 				setOpen(true);
 			}}

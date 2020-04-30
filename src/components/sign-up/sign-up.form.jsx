@@ -6,29 +6,49 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '../primitives/input.styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import { connect } from 'react-redux';
-import { emailSignIn, clearUserError } from '../../redux/user/user.actions';
+import { emailSignUp, clearUserError } from '../../redux/user/user.actions';
 import Button from '../primitives/button.styles';
 import Alert from '../primitives/alert.component';
 
-const SignInForm = ({ emailSignIn, error, clearError }) => {
+const SignUpForm = ({ emailSignUp, error, clearError }) => {
 	return (
 		<>
 			<Formik
-				initialValues={{ email: '', password: '' }}
+				initialValues={{ email: '', password: '', passwordconf: '', name: '' }}
 				onSubmit={(values) => {
-					emailSignIn(values);
+					emailSignUp(values);
 				}}
 				validationSchema={Yup.object().shape({
 					email: Yup.string()
 						.email('Email ivalid')
 						.required('Email is required'),
 					password: Yup.string().required('Password is required'),
+					passwordconf: Yup.string()
+						.oneOf([Yup.ref('password'), null], 'Passwords must match')
+						.required('Password Confirmation is required'),
+					name: Yup.string().required('Name is required'),
 				})}
 			>
 				{(props) => {
 					console.log(props);
 					return (
 						<Form onSubmit={props.handleSubmit}>
+							<FormControl
+								error={props.touched['name'] && !!props.errors['name']}
+							>
+								<InputLabel htmlFor='name'>Name</InputLabel>
+								<Input
+									id='name'
+									name='name'
+									value={props.values['name']}
+									onChange={props.handleChange}
+								/>
+								{props.touched['name'] && props.errors['name'] && (
+									<FormHelperText id='name-text'>
+										{props.errors['name']}
+									</FormHelperText>
+								)}
+							</FormControl>
 							<FormControl
 								error={props.touched['email'] && !!props.errors['email']}
 							>
@@ -62,9 +82,30 @@ const SignInForm = ({ emailSignIn, error, clearError }) => {
 									</FormHelperText>
 								)}
 							</FormControl>
+							<FormControl
+								error={
+									props.touched['passwordconf'] &&
+									!!props.errors['passwordconf']
+								}
+							>
+								<InputLabel htmlFor='passwordconf'>Confirm Password</InputLabel>
+								<Input
+									id='passwordconf'
+									name='passwordconf'
+									type='password'
+									value={props.values['passwordconf']}
+									onChange={props.handleChange}
+								/>
+								{props.touched['passwordconf'] &&
+									props.errors['passwordconf'] && (
+										<FormHelperText id='passwordconf-text'>
+											{props.errors['passwordconf']}
+										</FormHelperText>
+									)}
+							</FormControl>
 							<FormControl>
 								<Button variant='outlined' color='primary' type='submit'>
-									SIGN IN
+									SIGN UP
 								</Button>
 							</FormControl>
 						</Form>
@@ -80,13 +121,13 @@ const mapStateToProps = ({ user }) => ({
 	error: user.error,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-	emailSignIn: (values) => {
-		dispatch(emailSignIn(values));
+const mapDispatchToProps = (dispatch) => ({
+	emailSignUp: (values) => {
+		dispatch(emailSignUp(values));
 	},
 	clearError: () => {
 		dispatch(clearUserError());
 	},
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

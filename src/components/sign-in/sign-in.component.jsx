@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './sign-in.styles.scss';
 import SignInForm from './sign-in.form';
 
