@@ -6,10 +6,14 @@ import {
 	LogoContainer,
 	HeaderBar,
 	OptionsContainer,
-	OptionLink,
+	MenuOptionLink,
+	Option,
 } from './header.styles';
 import { signOut } from '../../redux/user/user.actions';
 import { Content } from '../shared/content/content.styles';
+import Dots from './dots/dots.component';
+import Search from './search/search.component';
+import ShopIcon from '../cart-icon/cart-icon.components';
 
 const Header = ({ signOut, isAuth }) => {
 	return (
@@ -19,15 +23,19 @@ const Header = ({ signOut, isAuth }) => {
 					<LogoContainer to='/'>
 						<Logo className='logo' />
 					</LogoContainer>
+					<Option>
+						<Search />
+					</Option>
 					<OptionsContainer>
-						{!isAuth ? null : <OptionLink to='/profile'>PROFILE</OptionLink>}
-						{!isAuth ? null : (
-							<OptionLink as='div' to='#' onClick={() => signOut()}>
-								SIGN OUT
-							</OptionLink>
+						{isAuth ? null : (
+							<MenuOptionLink to='/signin'>SIGN IN</MenuOptionLink>
 						)}
-						{isAuth ? null : <OptionLink to='/signin'>SIGN IN</OptionLink>}
+
+						{!isAuth ? null : <Dots />}
 					</OptionsContainer>
+					<Option>
+						<ShopIcon />
+					</Option>
 				</HeaderContainer>
 			</Content>
 		</HeaderBar>

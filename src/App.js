@@ -9,6 +9,8 @@ import HomePage from './pages/homepage/hompage.component';
 import Profile from './pages/profile/profile.component';
 import SignInAndSignUpPage from './pages/sign-in-sign-up/sign-in-and-sign-up.component';
 import Verified from './pages/verified/verified.component';
+import ProductList from './pages/product-list/product-list.component';
+import ProductDetails from './pages/pdp/pdp.component';
 
 function App() {
 	return (
@@ -19,6 +21,8 @@ function App() {
 					<AuthRoute exact path='/profile' render={() => <Profile />} />
 					<Route exact path='/signin' render={() => <SignInAndSignUpPage />} />
 					<Route exact path='/verified' render={() => <Verified />} />
+					<Route exact path='/list' render={() => <ProductList />} />
+					<Route exact path='/product/:id' render={() => <ProductDetails />} />
 					<Route exact path='/' render={() => <HomePage />} />
 				</Switch>
 			</Content>

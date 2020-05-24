@@ -7,10 +7,12 @@ const CustomButtonContainer = styled(Button)`
 		background-color: ${(props) => (props.disabled ? '#ddd' : '#000')};
     border-radius: 0px;
     margin-top: 10px;
-    
+    border: 1px solid white;
+    transition: none !important;
 
     &:hover {
       color: black;
+      border: 1px solid black;
     }
 	}
 `;

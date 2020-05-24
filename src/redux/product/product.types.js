@@ -1,0 +1,8 @@
+const ProductActionTypes = {
+	GET_LIST_START: 'GET_LIST_START',
+	GET_PRODUCT_START: 'GET_PRODUCT_START',
+	GET_LIST_FINISH: 'GET_LIST_FINISH',
+	GET_PRODUCT_FINISH: 'GET_PRODUCT_FINISH',
+};
+
+export default ProductActionTypes;

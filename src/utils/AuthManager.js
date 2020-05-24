@@ -6,11 +6,13 @@ function saveToken(token) {
 	return token;
 }
 
-function parseStatus(status = 200, res) {
+export function parseStatus(status = 200, res) {
+	let totalCount = res.headers.get('X-Total-Count');
 	res = res.json();
 	return new Promise((resolve, reject) => {
 		if (status && status >= 200 && status < 300) {
 			res.then((response) => {
+				response.totalCount = totalCount;
 				resolve(response);
 			});
 		} else {
