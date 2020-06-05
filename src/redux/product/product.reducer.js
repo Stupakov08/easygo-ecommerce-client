@@ -3,6 +3,12 @@ import ProductActionTypes from './product.types';
 const INITIAL_STATE = {
 	list: null,
 	loading: false,
+	pagination: {
+		totalCount: 0,
+		_start: 0,
+		_end: 3,
+		itemsOnPage: 3,
+	},
 };
 
 const productReducer = (state = INITIAL_STATE, action) => {
@@ -18,7 +24,12 @@ const productReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				list: action.payload.list,
 				loading: false,
-				totalCount: action.payload.totalCount,
+				pagination: {
+					...state.pagination,
+					totalCount: action.payload.pagination.totalCount,
+					_start: action.payload.pagination._start,
+					_end: action.payload.pagination._end,
+				},
 			};
 		case ProductActionTypes.GET_PRODUCT_FINISH:
 			return {

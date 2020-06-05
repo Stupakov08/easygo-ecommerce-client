@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ReactComponent as Logo } from '../../assets/go.svg';
 import {
@@ -10,12 +10,18 @@ import {
 	Option,
 } from './header.styles';
 import { signOut } from '../../redux/user/user.actions';
+import { clearCart } from '../../redux/cart/cart.actions';
 import { Content } from '../shared/content/content.styles';
 import Dots from './dots/dots.component';
 import Search from './search/search.component';
 import ShopIcon from '../cart-icon/cart-icon.components';
+import CartDropdown from '../cart-dropdown/cart-dropdown.container';
+import { getCart } from '../../redux/cart/cart.actions';
 
-const Header = ({ signOut, isAuth }) => {
+const Header = ({ signOut, isAuth, hidden, getCart }) => {
+	useEffect(() => {
+		getCart();
+	}, [isAuth]);
 	return (
 		<HeaderBar>
 			<Content>
@@ -36,19 +42,25 @@ const Header = ({ signOut, isAuth }) => {
 					<Option>
 						<ShopIcon />
 					</Option>
+					{hidden ? null : <CartDropdown />}
 				</HeaderContainer>
 			</Content>
 		</HeaderBar>
 	);
 };
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, cart }) => ({
+	hidden: cart.hidden,
 	isAuth: user.currentUser && user.currentUser.userId,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	signOut: (values) => {
 		dispatch(signOut(values));
+		dispatch(clearCart());
+	},
+	getCart: () => {
+		dispatch(getCart());
 	},
 });
 

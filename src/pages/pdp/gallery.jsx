@@ -44,13 +44,8 @@ export default class Gallery extends Component {
 						slidesToShow={4}
 						swipeToSlide={true}
 						focusOnSelect={true}
+						slidesToScroll={1}
 					>
-						{images &&
-							images.map((i) => (
-								<div key={i.url} className={'imgWpr'}>
-									<img src={i.url} alt={'map'} />
-								</div>
-							))}
 						{images &&
 							images.map((i) => (
 								<div key={i.url} className={'imgWpr'}>

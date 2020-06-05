@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { signOut } from '../../../redux/user/user.actions';
 import { connect } from 'react-redux';
 import PersonIcon from '@material-ui/icons/Person';
+import { clearCart } from '../../../redux/cart/cart.actions';
 
 import { ListOptionLink } from '../header.styles';
 
@@ -66,6 +67,7 @@ export const Dots = ({ signOut }) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	signOut: (values) => {
 		dispatch(signOut(values));
+		dispatch(clearCart());
 	},
 });
 

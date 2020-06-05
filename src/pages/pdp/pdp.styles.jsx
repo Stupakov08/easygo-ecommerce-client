@@ -23,12 +23,16 @@ export const LCarousel = styled.div`
 		img {
 			margin: auto;
 			max-height: 100%;
+			max-width: 85%;
 		}
 	}
 `;
 export const SCarousel = styled.div`
-	height: 80px;
-
+	.slick-track {
+		height: 80px;
+		overflow-x: auto;
+		overflow-y: hidden;
+	}
 	.slick-slide {
 		text-align: center;
 	}
@@ -43,12 +47,14 @@ export const SCarousel = styled.div`
 		img {
 			margin: auto;
 			max-height: 100%;
+			max-width: 100%;
 		}
 	}
 `;
 export const Title = styled.h1`
 	font-weight: 400;
 	margin-top: 0;
+	margin-bottom: 10px;
 `;
 export const Description = styled.p`
 	font-weight: 300;
@@ -63,4 +69,7 @@ export const Price = styled.p`
 export const Code = styled.div`
 	font-size: 12px;
 	font-weight: 100;
+`;
+export const ChipHolder = styled.div`
+	margin-bottom: 10px;
 `;

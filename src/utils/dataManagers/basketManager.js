@@ -1,4 +1,5 @@
 import { parseStatus } from '../AuthManager';
+import { fetchWithAuth } from '../AuthManager';
 
 const makeUrlParams = (params) => {
 	let string = '';
@@ -7,28 +8,31 @@ const makeUrlParams = (params) => {
 	}
 	return string;
 };
-const productManager = {
-	getList: (props) => {
-		const params = makeUrlParams(props);
-		return fetch(`${process.env.REACT_APP_SERVER_URI}/products${params}`, {
-			method: 'GET',
+const CartManager = {
+	syncCart: (cartItems, userId) => {
+		return fetch(`${process.env.REACT_APP_SERVER_URI}/cart/${userId}`, {
+			method: 'POST',
+			credentials: 'include',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
+			body: JSON.stringify({
+				cartItems,
+			}),
 		}).then((res) => {
 			return parseStatus(res.status, res);
 		});
 	},
-	getProduct: (props) => {
-		const { id } = props;
-		return fetch(`${process.env.REACT_APP_SERVER_URI}/products/${id}`, {
+	getCart: (userId) => {
+		return fetchWithAuth(`${process.env.REACT_APP_SERVER_URI}/cart/${userId}`, {
 			method: 'GET',
+			credentials: 'include',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-		}).then((res) => parseStatus(res.status, res));
+		});
 	},
 };
-export default productManager;
+export default CartManager;

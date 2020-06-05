@@ -1,0 +1,13 @@
+.checkout {
+	width: 100%;
+	max-width: 1200px;
+	margin: auto;
+	min-height: 90vh;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+
+	.form-holder {
+		width: 50%;
+	}
+}

@@ -7,9 +7,9 @@ export const getListStart = () => ({
 export const getProductStart = () => ({
 	type: ProductActionTypes.GET_PRODUCT_START,
 });
-export const getListFinish = (res, totalCount) => ({
+export const getListFinish = (res, pagination) => ({
 	type: ProductActionTypes.GET_LIST_FINISH,
-	payload: { list: res, totalCount },
+	payload: { list: res, pagination: { ...pagination } },
 });
 export const getProductFinish = (res) => ({
 	type: ProductActionTypes.GET_PRODUCT_FINISH,
@@ -20,7 +20,9 @@ export const getList = ({ q, _start, _end, _sort, _order }) => {
 	return async (dispatch) => {
 		dispatch(getListStart());
 		dataManager.getList({ q, _start, _end, _sort, _order }).then((res) => {
-			dispatch(getListFinish(res, res.totalCount));
+			debugger;
+			const { totalCount } = res;
+			dispatch(getListFinish(res, { totalCount, _start, _end }));
 		});
 	};
 };
