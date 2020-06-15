@@ -20,7 +20,6 @@ export const getList = ({ q, _start, _end, _sort, _order }) => {
 	return async (dispatch) => {
 		dispatch(getListStart());
 		dataManager.getList({ q, _start, _end, _sort, _order }).then((res) => {
-			debugger;
 			const { totalCount } = res;
 			dispatch(getListFinish(res, { totalCount, _start, _end }));
 		});

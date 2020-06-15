@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Button from '../../components/primitives/button.styles';
 import { withRouter } from 'react-router-dom';
+import StripeCheckoutButton from '../../components/stripe-button/stripe-button.component';
 
 import BasketItem from '../../components/basket-item/basket-item.component';
 
@@ -41,12 +42,13 @@ const BasketPage = ({ cartItems, total, history }) => {
 			<div className='total'>
 				<span>TOTAL: {total()} ₴</span>
 			</div>
+			{/* <StripeCheckoutButton price={total()}></StripeCheckoutButton> */}
 			<Button
 				onClick={() => {
 					history.push('/checkout');
 				}}
 			>
-				Procced to Checkout
+				Checkout
 			</Button>
 		</div>
 	);

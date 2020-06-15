@@ -4,19 +4,25 @@ import Button from '../../components/primitives/button.styles';
 
 import BasketItem from '../../components/basket-item/basket-item.component';
 import Overview from './overview.component.jsx';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
+import Shipping from '../../components/shipping/shipping.component';
 
 import './checkout.styles.scss';
 
 const Checkout = ({ cartItems, total, history }) => {
+	if (!cartItems.length) return <Redirect to='/basket' />;
 	return (
 		<div className='checkout'>
-			<div className='form-holder'></div>
+			<div className='form-holder'>
+				<Shipping />
+			</div>
 			<Overview />
 		</div>
 	);
 };
 
-const mapStateToProps = ({ cart }) => ({});
+const mapStateToProps = ({ cart }) => ({
+	cartItems: cart.cartItems,
+});
 
 export default withRouter(connect(mapStateToProps)(Checkout));

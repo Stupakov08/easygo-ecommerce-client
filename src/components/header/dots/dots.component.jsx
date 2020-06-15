@@ -4,6 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -48,6 +49,12 @@ export const Dots = ({ signOut }) => {
 					},
 				}}
 			>
+				<MenuItem component={ListOptionLink} to='/orders'>
+					<ListItemIcon style={{ minWidth: 40 }}>
+						<ListAltIcon color={'primary'} />
+					</ListItemIcon>
+					<ListItemText>RECENT ORDERS</ListItemText>
+				</MenuItem>
 				<MenuItem component={ListOptionLink} to='/profile'>
 					<ListItemIcon style={{ minWidth: 40 }}>
 						<AccountCircleIcon color={'primary'} />

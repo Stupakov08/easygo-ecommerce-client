@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { getCart } from '../../redux/cart/cart.actions';
 import { ReactComponent as Logo } from '../../assets/go.svg';
 import {
 	HeaderContainer,
@@ -16,12 +17,8 @@ import Dots from './dots/dots.component';
 import Search from './search/search.component';
 import ShopIcon from '../cart-icon/cart-icon.components';
 import CartDropdown from '../cart-dropdown/cart-dropdown.container';
-import { getCart } from '../../redux/cart/cart.actions';
 
 const Header = ({ signOut, isAuth, hidden, getCart }) => {
-	useEffect(() => {
-		getCart();
-	}, [isAuth]);
 	return (
 		<HeaderBar>
 			<Content>
@@ -58,9 +55,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 	signOut: (values) => {
 		dispatch(signOut(values));
 		dispatch(clearCart());
-	},
-	getCart: () => {
-		dispatch(getCart());
 	},
 });
 

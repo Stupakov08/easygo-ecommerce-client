@@ -1,5 +1,6 @@
 import { getFingerprint } from './getFingerPrint';
 import jwt from 'jwt-decode';
+import Logout from '../components/shared/logout';
 
 function saveToken(token) {
 	localStorage.setItem('tokenData', token);
@@ -7,7 +8,8 @@ function saveToken(token) {
 }
 
 export function parseStatus(status = 200, res) {
-	let totalCount = res.headers.get('X-Total-Count');
+	debugger;
+	let totalCount = res.headers && res.headers.get('X-Total-Count');
 	res = res.json();
 	return new Promise((resolve, reject) => {
 		if (status && status >= 200 && status < 300) {
@@ -23,6 +25,7 @@ export function parseStatus(status = 200, res) {
 	});
 }
 const signUpAndgetTokens = async (body) => {
+	debugger;
 	return fetch(`${process.env.REACT_APP_SERVER_URI}/auth/signup`, {
 		method: 'POST',
 		credentials: 'include',
@@ -34,11 +37,17 @@ const signUpAndgetTokens = async (body) => {
 	})
 		.then((res) => parseStatus(res.status, res))
 		.then((res) => {
-			saveToken(JSON.stringify(res));
+			saveToken(
+				JSON.stringify({
+					accessToken: res.accessToken,
+					refreshToken: res.refreshToken,
+				})
+			);
 			return res;
 		});
 };
 const getTokens = async (body) => {
+	debugger;
 	return fetch(`${process.env.REACT_APP_SERVER_URI}/auth/signin`, {
 		method: 'POST',
 		credentials: 'include',
@@ -56,6 +65,7 @@ const getTokens = async (body) => {
 };
 
 const isAuth = () => {
+	debugger;
 	let token;
 	try {
 		token =
@@ -71,17 +81,17 @@ const isAuth = () => {
 };
 
 const refreshToken = async (token) => {
-	const loginUrl = '/signIn';
+	debugger;
 	let fingerprint = await getFingerprint();
 	let tokenData = null;
 
-	if (!localStorage.tokenData) return window.location.replace(loginUrl); //logout
+	if (!localStorage.tokenData) return Logout(); //logout
 
 	tokenData = JSON.parse(localStorage.tokenData);
 	const refreshToken = tokenData.refreshToken;
 	const expired = jwt(refreshToken).exp * 1000;
 
-	if (Date.now() >= expired) window.location.replace(loginUrl); //logout
+	if (Date.now() >= expired) Logout(); //logout
 
 	return fetch(`${process.env.REACT_APP_SERVER_URI}/auth/refresh-tokens`, {
 		method: 'POST',
@@ -97,19 +107,24 @@ const refreshToken = async (token) => {
 	})
 		.then((res) => parseStatus(res.status, res))
 		.then((res) => {
-			saveToken(JSON.stringify(res));
+			saveToken(
+				JSON.stringify({
+					accessToken: res.accessToken,
+					refreshToken: res.refreshToken,
+				})
+			);
 			return res;
 		});
 };
 
 const fetchWithAuth = async (url, options = {}) => {
-	const loginUrl = '/signIn';
+	debugger;
 	let tokenData = null;
 
 	if (localStorage.tokenData) {
 		tokenData = JSON.parse(localStorage.tokenData);
 	} else {
-		return window.location.replace(loginUrl); //logout
+		return Logout(); //logout
 	}
 
 	if (!options.headers) {
@@ -123,11 +138,12 @@ const fetchWithAuth = async (url, options = {}) => {
 		const accessToken = tokenData.accessToken;
 		const expired = jwt(accessToken).exp * 1000;
 
-		if (Date.now() + 20000 >= expired) {
+		if (Date.now() + 2000 >= expired) {
 			try {
 				await refreshToken(tokenData.refreshToken);
 			} catch (e) {
-				return window.location.replace(loginUrl); //logout
+				Logout();
+				return Promise.reject(); //logout
 			}
 		}
 
@@ -138,6 +154,7 @@ const fetchWithAuth = async (url, options = {}) => {
 };
 
 const signOutUser = async () => {
+	debugger;
 	let fingerprint = await getFingerprint();
 	let tokenData = null;
 

@@ -27,7 +27,12 @@ const PDP = ({ product, get, match, addItem, location }) => {
 	useEffect(() => {
 		get(match.params.id);
 	}, [match, get]);
-
+	if (!product)
+		return (
+			<Page>
+				<div className='empty-list'>Product does not exist</div>
+			</Page>
+		);
 	return (
 		<Page>
 			<Left>

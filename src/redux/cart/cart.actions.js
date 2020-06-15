@@ -1,11 +1,11 @@
 import CartActionTypes from './cart.types';
 import dataProvider from '../../utils/dataManagers';
+import { signOut } from '../user/user.actions';
 
 export const toggleCartHidden = () => ({
 	type: CartActionTypes.TOGGLE_CART_HIDDEN,
 });
 export const toggleCartHiddenTimeOut = (time) => {
-	debugger;
 	return async (dispatch) => {
 		dispatch(toggleCartHidden());
 		setTimeout(() => {
@@ -80,7 +80,14 @@ export const getCart = (cartItems) => {
 	return async (dispatch, getState) => {
 		const state = getState();
 		if (!state.user.currentUser) return;
-		const cart = await dataProvider.cart.getCart(state.user.currentUser.userId);
-		dispatch(updateCart(cart));
+		let cart = [];
+		try {
+			cart = await dataProvider.cart.getCart(state.user.currentUser.userId);
+		} catch (e) {
+			dispatch(signOut());
+		}
+		if (cart.cartItems != null) {
+			dispatch(updateCart(cart));
+		}
 	};
 };

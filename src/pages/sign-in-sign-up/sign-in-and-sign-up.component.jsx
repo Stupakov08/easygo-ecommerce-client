@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SignIn from '../../components/sign-in/sign-in.component';
 import SignUp from '../../components/sign-up/sign-up.component';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { HomePageContainer } from './sign-in-and-sign-up.styles';
 import { connect } from 'react-redux';
 
 const SignInAndSignUpPage = ({ isAuth }) => {
+	const location = useLocation();
+
 	if (isAuth) {
-		return <Redirect to='/' />;
+		return (
+			<Redirect to={(location.state && location.state.redirectUrl) || '/'} />
+		);
 	}
 	return (
 		<HomePageContainer>

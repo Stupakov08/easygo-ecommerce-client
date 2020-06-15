@@ -37,7 +37,6 @@ const Product = ({ product, addItem }) => {
 					<PriceContainer>{Currency(price)}</PriceContainer>
 					<Button
 						onClick={() => {
-							debugger;
 							addItem(product);
 						}}
 					>

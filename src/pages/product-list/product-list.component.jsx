@@ -27,7 +27,6 @@ const ProductListPage = ({
 				<div className='empty-list'>No product found</div>
 			</div>
 		);
-
 	return (
 		<>
 			<List>{list && list.map((l) => <Product key={l.id} product={l} />)}</List>
@@ -35,7 +34,6 @@ const ProductListPage = ({
 				count={Math.ceil(totalCount / itemsOnPage)}
 				page={Math.ceil(_start / itemsOnPage) + 1}
 				onChange={(e, p) => {
-					debugger;
 					history.push({
 						pathname: '/list',
 						search:

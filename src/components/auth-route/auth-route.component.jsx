@@ -6,7 +6,12 @@ const AuthRoute = ({ isAuth, ...props }) => {
 	return isAuth ? (
 		<Route path={props.path} render={props.render} />
 	) : (
-		<Redirect to='/signin' />
+		<Redirect
+			to={{
+				pathname: '/signin',
+				state: { redirectUrl: props.path },
+			}}
+		/>
 	);
 };
 const mapStateToProps = ({ user }) => ({

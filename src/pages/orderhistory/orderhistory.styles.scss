@@ -1,21 +1,24 @@
-.checkout-page {
+.orderhistory-page {
 	width: 90%;
 	max-width: 800px;
 	min-height: 90vh;
-	display: flex;
-	flex-direction: column;
 	align-items: center;
 	margin: 50px auto 0;
-
+	table {
+		border-collapse: collapse;
+	}
 	.checkout-header {
-		width: 100%;
-		padding: 10px 0;
-		display: flex;
-		justify-content: space-between;
-		border-bottom: 1px solid darkgrey;
-
+		th {
+			width: 100%;
+			padding: 10px 0;
+			border-bottom: 1px solid darkgrey;
+			white-space: nowrap;
+			font-weight: 400;
+			padding: 15px 5px;
+		}
 		.header-block {
 			text-transform: capitalize;
+			padding: 6px;
 			&:first-child {
 				text-align: center;
 				width: 80px;
@@ -25,16 +28,17 @@
 				width: 8%;
 			}
 		}
-		.name {
-			width: 35%;
-		}
 		.quantity {
-			width: 20%;
 			text-align: center;
 		}
 		.price {
-			width: 25%;
+			min-width: 100px;
 			text-align: center;
+		}
+
+		.address {
+			min-width: 220px;
+			text-align: left;
 		}
 	}
 

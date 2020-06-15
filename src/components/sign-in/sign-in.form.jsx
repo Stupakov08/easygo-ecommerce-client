@@ -26,7 +26,6 @@ const SignInForm = ({ emailSignIn, error, clearError }) => {
 				})}
 			>
 				{(props) => {
-					console.log(props);
 					return (
 						<Form onSubmit={props.handleSubmit}>
 							<FormControl

@@ -8,7 +8,6 @@ const CartItem = ({
 		quantity,
 	},
 }) => {
-	debugger;
 	return (
 		<div className='cart-item'>
 			<div className='img'>
