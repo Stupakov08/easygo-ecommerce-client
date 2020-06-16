@@ -16,10 +16,13 @@ export const getProductFinish = (res) => ({
 	payload: { details: res },
 });
 
-export const getList = ({ q, _start, _end, _sort, _order }) => {
+export const getList = ({ q, c, _start, _end, _sort, _order }) => {
 	return async (dispatch) => {
 		dispatch(getListStart());
-		dataManager.getList({ q, _start, _end, _sort, _order }).then((res) => {
+		if (c) {
+			q = undefined;
+		}
+		dataManager.getList({ q, c, _start, _end, _sort, _order }).then((res) => {
 			const { totalCount } = res;
 			dispatch(getListFinish(res, { totalCount, _start, _end }));
 		});

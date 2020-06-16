@@ -17,6 +17,7 @@ const ProductListPage = ({
 	const [parsed, setParsed] = useState(1);
 	useEffect(() => {
 		const parsed = queryString.parse(location.search);
+
 		setParsed({ _start, _end, ...parsed });
 		getList({ _start, _end, ...parsed });
 	}, [location]);
