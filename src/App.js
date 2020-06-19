@@ -15,6 +15,7 @@ import Basket from './pages/basket/basket.component';
 import OrderHistory from './pages/orderhistory/orderhistory.component';
 import Order from './pages/orderdetail/orderdetail.component';
 import Checkout from './pages/checkout/checkout.component';
+import NotFound from './pages/NotFound';
 import { connect } from 'react-redux';
 import { getCart } from './redux/cart/cart.actions';
 
@@ -37,6 +38,7 @@ function App({ getCart, isAuth }) {
 					<AuthRoute exact path='/orders' render={() => <OrderHistory />} />
 					<AuthRoute exact path='/order/:id' render={() => <Order />} />
 					<AuthRoute exact path='/checkout' render={() => <Checkout />} />
+					<Route render={() => <NotFound />} />
 				</Switch>
 			</Content>
 		</div>

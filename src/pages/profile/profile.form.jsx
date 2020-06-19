@@ -7,13 +7,16 @@ import Input from '../../components/primitives/input.styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import { connect } from 'react-redux';
 import Button from '../../components/primitives/button.styles';
+import { updateProfile } from '../../redux/user/user.actions';
 
-const ProfileForm = ({ user }) => {
+const ProfileForm = ({ user, updateProfile, id }) => {
 	return (
 		<>
 			<Formik
 				initialValues={{ email: user.email, name: user.name }}
-				onSubmit={() => {}}
+				onSubmit={(values) => {
+					updateProfile({ name: values.name, id: user.userId });
+				}}
 				validationSchema={Yup.object().shape({
 					email: Yup.string()
 						.email('Email ivalid')
@@ -33,6 +36,7 @@ const ProfileForm = ({ user }) => {
 									name='email'
 									value={props.values['email']}
 									onChange={props.handleChange}
+									disabled
 								/>
 								{props.touched['email'] && props.errors['email'] && (
 									<FormHelperText id='email-text'>
@@ -72,5 +76,8 @@ const ProfileForm = ({ user }) => {
 const mapStateToProps = ({ user }) => ({
 	user: user.currentUser,
 });
+const mapDispatchToProps = (dispatch) => ({
+	updateProfile: (props) => dispatch(updateProfile(props)),
+});
 
-export default connect(mapStateToProps)(ProfileForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileForm);

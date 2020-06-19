@@ -1,11 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-import {
-	clearItemFromCartSync,
-	addItemSync,
-	removeItemSync,
-} from '../../redux/cart/cart.actions';
 
 import './overview-item.styles.scss';
 

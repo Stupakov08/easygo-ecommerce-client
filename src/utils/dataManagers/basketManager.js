@@ -1,4 +1,3 @@
-import { parseStatus } from '../AuthManager';
 import { fetchWithAuth } from '../AuthManager';
 
 const makeUrlParams = (params) => {

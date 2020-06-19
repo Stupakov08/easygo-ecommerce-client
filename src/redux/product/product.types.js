@@ -3,6 +3,7 @@ const ProductActionTypes = {
 	GET_PRODUCT_START: 'GET_PRODUCT_START',
 	GET_LIST_FINISH: 'GET_LIST_FINISH',
 	GET_PRODUCT_FINISH: 'GET_PRODUCT_FINISH',
+	CLEAR_LIST: 'CLEAR_LIST',
 };
 
 export default ProductActionTypes;

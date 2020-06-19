@@ -1,12 +1,11 @@
 import React from 'react';
 import StripeCheckout from 'react-stripe-checkout';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import { useFormikContext } from 'formik';
 import Button from '../primitives/button.styles';
 import { fetchWithAuth } from '../../utils/AuthManager';
 import styled from 'styled-components';
 import { clearCart } from '../../redux/cart/cart.actions';
+import { useHistory } from 'react-router-dom';
 
 const BlueButton = styled(Button)`
 	&& {
@@ -28,6 +27,7 @@ const StripeCheckoutButton = ({
 	userId,
 	clearCart,
 }) => {
+	const history = useHistory();
 	const priceForStripe = total() * 100;
 	const publishableKey = 'pk_test_cLI56toHxpAsfVYGbhGD4Cde00aLHacGnm';
 
@@ -49,6 +49,7 @@ const StripeCheckoutButton = ({
 		})
 			.then((response) => {
 				clearCart();
+				history.push(`/order/${response._id}`);
 			})
 			.catch((error) => {
 				console.log('Payment error: ', error);

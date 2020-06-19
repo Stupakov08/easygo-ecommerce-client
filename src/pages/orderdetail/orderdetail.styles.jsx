@@ -5,33 +5,61 @@ export const Page = styled.div`
 	padding-top: 40px;
 `;
 
-export const Left = styled.div`
-	width: 48%;
-`;
-export const Right = styled.div`
-	width: 52%;
-	padding-left: 20px;
-	box-sizing: border-box;
+export const OrderDetail = styled.div`
+	width: 100%;
+	margin-top: 40px;
 `;
 export const Title = styled.h1`
-	font-weight: 400;
-	margin-top: 0;
-	margin-bottom: 10px;
-`;
-export const Description = styled.p`
-	font-weight: 300;
-	margin-top: 0;
-`;
-export const Price = styled.p`
-	font-weight: 400;
-	font-size: 24px;
-	margin-top: 20px;
-	margin-bottom: 10px;
-`;
-export const Code = styled.div`
-	font-size: 12px;
+	font-size: 48px;
 	font-weight: 100;
-`;
-export const ChipHolder = styled.div`
 	margin-bottom: 10px;
+`;
+export const SubTitle = styled.h4`
+	font-size: 28px;
+	font-weight: 100;
+	margin: 0 0 10px 0;
+`;
+export const Notes = styled.div`
+	font-size: 16px;
+	color: grey;
+`;
+export const ColumnWrp = styled.div`
+	display: table;
+	@media screen and (max-width: 639px) {
+		display: block;
+	}
+	width: 100%;
+`;
+export const Column = styled.div`
+	display: table-cell;
+	padding: 20px 20px 20px 0px;
+	width: 50%;
+
+	@media screen and (max-width: 639px) {
+		width: 100%;
+		display: block;
+	}
+	box-sizing: border-box;
+`;
+export const Table = styled.table`
+	border-collapse: collapse;
+	width: 100%;
+`;
+export const Row = styled.tr`
+	td {
+		border-bottom: 1px solid grey;
+		height: 35px;
+	}
+	td.name {
+		color: grey;
+		width: 40%;
+	}
+`;
+export const Total = styled.div`
+	margin-top: 16px;
+	margin-left: auto;
+	font-size: 22px;
+	padding-bottom: 15px;
+	width: 100%;
+	text-align: right;
 `;

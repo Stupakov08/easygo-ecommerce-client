@@ -30,7 +30,6 @@ const SignUpForm = ({ emailSignUp, error, clearError }) => {
 				})}
 			>
 				{(props) => {
-					console.log(props);
 					return (
 						<Form onSubmit={props.handleSubmit}>
 							<FormControl

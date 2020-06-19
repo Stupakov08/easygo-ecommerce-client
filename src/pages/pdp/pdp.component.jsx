@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Currency from '../../components/primitives/Currency';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { debounce } from 'debounce';
 import {
@@ -16,17 +15,16 @@ import {
 import Button from '../../components/primitives/button.styles';
 import Gallery from './gallery';
 import { getProduct } from '../../redux/product/product.actions';
-import {
-	addItemSync,
-	toggleCartHiddenTimeOut,
-} from '../../redux/cart/cart.actions';
+import { addItemSync, toggleCartHidden } from '../../redux/cart/cart.actions';
 import { withRouter } from 'react-router';
 import Chip from '@material-ui/core/Chip';
 
-const PDP = ({ product, get, match, addItem, location }) => {
+const PDP = ({ product, get, match, addItem, loading }) => {
 	useEffect(() => {
 		get(match.params.id);
 	}, [match, get]);
+
+	if (loading) return null;
 	if (!product)
 		return (
 			<Page>
@@ -44,7 +42,7 @@ const PDP = ({ product, get, match, addItem, location }) => {
 				<ChipHolder>
 					{product &&
 						product.categories.map(({ title }) => (
-							<Chip variant='outlined' size='small' label={title} />
+							<Chip variant='outlined' size='small' key={title} label={title} />
 						))}
 				</ChipHolder>
 				<Description>{product && product.description}</Description>
@@ -56,13 +54,14 @@ const PDP = ({ product, get, match, addItem, location }) => {
 };
 const mapStateToProps = ({ product }) => ({
 	product: product.details,
+	loading: product.loading,
 });
 const mapDispatchToProps = (dispatch) => ({
 	get: (props) => dispatch(getProduct(props)),
 	addItem: debounce(
 		(item) => {
 			dispatch(addItemSync(item));
-			dispatch(toggleCartHiddenTimeOut(2000));
+			dispatch(toggleCartHidden(false));
 		},
 		800,
 		true

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Button from '../../components/primitives/button.styles';
 import { withRouter } from 'react-router-dom';
-import StripeCheckoutButton from '../../components/stripe-button/stripe-button.component';
 
 import BasketItem from '../../components/basket-item/basket-item.component';
 

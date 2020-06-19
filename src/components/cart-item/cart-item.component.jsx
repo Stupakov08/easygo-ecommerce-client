@@ -18,7 +18,7 @@ const CartItem = ({
 					{title}
 				</a>
 				<span className='price'>
-					{quantity} x ₴ {price}
+					{quantity} x {price} ₴
 				</span>
 			</div>
 		</div>

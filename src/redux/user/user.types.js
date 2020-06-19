@@ -4,6 +4,7 @@ const UserActionTypes = {
 	SIGN_IN_FAILURE: 'SIGN_IN_FAILURE',
 	CLEAR_USER_ERROR: 'CLEAR_USER_ERROR',
 	SIGN_OUT: 'SIGN_OUT',
+	UPDATE_PROFILE: 'UPDATE_PROFILE',
 };
 
 export default UserActionTypes;

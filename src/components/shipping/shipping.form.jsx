@@ -1,21 +1,16 @@
-import React, { useRef } from 'react';
-import { Formik, Form, useFormikContext } from 'formik';
+import React from 'react';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import FormControl from '../primitives/form-control.styles';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '../primitives/input.styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import { connect } from 'react-redux';
-import { emailSignUp, clearUserError } from '../../redux/user/user.actions';
 import Button from '../primitives/button.styles';
 import Alert from '../primitives/alert.component';
 import StripeCheckoutButton from '../stripe-button/stripe-button.component';
 
 const ShippingForm = ({ emailSignUp, error, clearError }) => {
-	const ref = useRef();
-	const handleSubmit = () => {
-		ref.current.click();
-	};
 	return (
 		<>
 			<Formik
@@ -36,7 +31,6 @@ const ShippingForm = ({ emailSignUp, error, clearError }) => {
 				})}
 			>
 				{(props) => {
-					console.log(props);
 					return (
 						<Form onSubmit={props.handleSubmit}>
 							<FormControl

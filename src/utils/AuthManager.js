@@ -1,6 +1,5 @@
 import { getFingerprint } from './getFingerPrint';
 import jwt from 'jwt-decode';
-import Logout from '../components/shared/logout';
 
 function saveToken(token) {
 	localStorage.setItem('tokenData', token);
@@ -8,7 +7,6 @@ function saveToken(token) {
 }
 
 export function parseStatus(status = 200, res) {
-	debugger;
 	let totalCount = res.headers && res.headers.get('X-Total-Count');
 	res = res.json();
 	return new Promise((resolve, reject) => {
@@ -25,7 +23,6 @@ export function parseStatus(status = 200, res) {
 	});
 }
 const signUpAndgetTokens = async (body) => {
-	debugger;
 	return fetch(`${process.env.REACT_APP_SERVER_URI}/auth/signup`, {
 		method: 'POST',
 		credentials: 'include',
@@ -47,7 +44,6 @@ const signUpAndgetTokens = async (body) => {
 		});
 };
 const getTokens = async (body) => {
-	debugger;
 	return fetch(`${process.env.REACT_APP_SERVER_URI}/auth/signin`, {
 		method: 'POST',
 		credentials: 'include',
@@ -65,7 +61,6 @@ const getTokens = async (body) => {
 };
 
 const isAuth = () => {
-	debugger;
 	let token;
 	try {
 		token =
@@ -81,17 +76,16 @@ const isAuth = () => {
 };
 
 const refreshToken = async (token) => {
-	debugger;
 	let fingerprint = await getFingerprint();
 	let tokenData = null;
 
-	if (!localStorage.tokenData) return Logout(); //logout
+	if (!localStorage.tokenData) Promise.reject({ status: 401 });
 
 	tokenData = JSON.parse(localStorage.tokenData);
 	const refreshToken = tokenData.refreshToken;
 	const expired = jwt(refreshToken).exp * 1000;
 
-	if (Date.now() >= expired) Logout(); //logout
+	if (Date.now() >= expired) Promise.reject({ status: 401 });
 
 	return fetch(`${process.env.REACT_APP_SERVER_URI}/auth/refresh-tokens`, {
 		method: 'POST',
@@ -117,14 +111,25 @@ const refreshToken = async (token) => {
 		});
 };
 
+const refreshTokensOrLogOut = async (token) => {
+	let res;
+	try {
+		res = await refreshToken(token);
+	} catch (e) {
+		return Promise.reject(e); //logout
+	}
+	return Promise.resolve(res);
+};
+
+let isRefreshing = false;
+
 const fetchWithAuth = async (url, options = {}) => {
-	debugger;
 	let tokenData = null;
 
 	if (localStorage.tokenData) {
 		tokenData = JSON.parse(localStorage.tokenData);
 	} else {
-		return Logout(); //logout
+		return Promise.reject({ status: 401 }); //logout
 	}
 
 	if (!options.headers) {
@@ -135,26 +140,53 @@ const fetchWithAuth = async (url, options = {}) => {
 	}
 
 	if (tokenData) {
-		const accessToken = tokenData.accessToken;
-		const expired = jwt(accessToken).exp * 1000;
-
-		if (Date.now() + 2000 >= expired) {
-			try {
-				await refreshToken(tokenData.refreshToken);
-			} catch (e) {
-				Logout();
-				return Promise.reject(); //logout
-			}
-		}
-
 		options.headers.Authorization = `Bearer ${tokenData.accessToken}`;
 	}
 
-	return fetch(url, options).then((res) => parseStatus(res.status, res));
+	return fetch(url, options)
+		.then((res) => parseStatus(res.status, res))
+		.catch(async (err) => {
+			if (err.status !== 401) {
+				return Promise.reject(err);
+			}
+			return new Promise((resolve, reject) => {
+				if (!isRefreshing) {
+					isRefreshing = true;
+					return refreshTokensOrLogOut(tokenData.refreshToken)
+						.then(async () => {
+							document.dispatchEvent(new Event('refreshed'));
+							resolve(await fetchWithAuth(url, options));
+						})
+						.catch(reject);
+				} else {
+					document.addEventListener(
+						'refreshed',
+						async () => {
+							try {
+								resolve(await fetchWithAuth(url, options));
+							} catch (e) {
+								reject(e);
+							}
+						},
+						false
+					);
+				}
+			});
+		});
+};
+
+const updateUserProfile = async ({ id, name }) => {
+	return fetchWithAuth(`${process.env.REACT_APP_SERVER_URI}/auth/user/${id}`, {
+		method: 'PUT',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ name }),
+	});
 };
 
 const signOutUser = async () => {
-	debugger;
 	let fingerprint = await getFingerprint();
 	let tokenData = null;
 
@@ -189,4 +221,5 @@ export {
 	isAuth,
 	signOutUser,
 	signUpAndgetTokens,
+	updateUserProfile,
 };

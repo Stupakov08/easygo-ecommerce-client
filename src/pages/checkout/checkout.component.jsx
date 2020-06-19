@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Button from '../../components/primitives/button.styles';
 
-import BasketItem from '../../components/basket-item/basket-item.component';
 import Overview from './overview.component.jsx';
 import { withRouter, Redirect } from 'react-router-dom';
 import Shipping from '../../components/shipping/shipping.component';
@@ -12,12 +10,14 @@ import './checkout.styles.scss';
 const Checkout = ({ cartItems, total, history }) => {
 	if (!cartItems.length) return <Redirect to='/basket' />;
 	return (
-		<div className='checkout'>
-			<div className='form-holder'>
-				<Shipping />
+		<>
+			<div className='checkout'>
+				<div className='form-holder'>
+					<Shipping />
+				</div>
+				<Overview />
 			</div>
-			<Overview />
-		</div>
+		</>
 	);
 };
 

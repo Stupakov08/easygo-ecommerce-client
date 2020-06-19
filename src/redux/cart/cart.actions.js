@@ -2,17 +2,10 @@ import CartActionTypes from './cart.types';
 import dataProvider from '../../utils/dataManagers';
 import { signOut } from '../user/user.actions';
 
-export const toggleCartHidden = () => ({
+export const toggleCartHidden = (hidden) => ({
 	type: CartActionTypes.TOGGLE_CART_HIDDEN,
+	payload: hidden,
 });
-export const toggleCartHiddenTimeOut = (time) => {
-	return async (dispatch) => {
-		dispatch(toggleCartHidden());
-		setTimeout(() => {
-			dispatch(toggleCartHidden());
-		}, time);
-	};
-};
 
 export const addItemSync = (cartItems) => {
 	return async (dispatch, getState) => {
@@ -37,10 +30,15 @@ export const removeItemSync = (cartItems) => {
 		dispatch(removeItem(cartItems));
 		const state = getState();
 		if (!state.user.currentUser.userId) return;
-		const cart = await dataProvider.cart.syncCart(
-			state.cart.cartItems,
-			state.user.currentUser.userId
-		);
+		let cart;
+		try {
+			cart = await dataProvider.cart.syncCart(
+				state.cart.cartItems,
+				state.user.currentUser.userId
+			);
+		} catch (err) {
+			err.status === 401 && dispatch(signOut());
+		}
 		dispatch(updateCart(cart));
 	};
 };
@@ -55,10 +53,15 @@ export const clearItemFromCartSync = (cartItems) => {
 		dispatch(clearItemFromCart(cartItems));
 		const state = getState();
 		if (!state.user.currentUser.userId) return;
-		const cart = await dataProvider.cart.syncCart(
-			state.cart.cartItems,
-			state.user.currentUser.userId
-		);
+		let cart;
+		try {
+			cart = await dataProvider.cart.syncCart(
+				state.cart.cartItems,
+				state.user.currentUser.userId
+			);
+		} catch (err) {
+			err.status === 401 && dispatch(signOut());
+		}
 		dispatch(updateCart(cart));
 	};
 };
@@ -83,10 +86,10 @@ export const getCart = (cartItems) => {
 		let cart = [];
 		try {
 			cart = await dataProvider.cart.getCart(state.user.currentUser.userId);
-		} catch (e) {
-			dispatch(signOut());
+		} catch (err) {
+			err.status === 401 && dispatch(signOut());
 		}
-		if (cart.cartItems != null) {
+		if (cart && cart.cartItems != null) {
 			dispatch(updateCart(cart));
 		}
 	};

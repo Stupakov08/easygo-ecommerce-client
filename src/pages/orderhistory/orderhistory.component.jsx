@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import Button from '../../components/primitives/button.styles';
 import { withRouter } from 'react-router-dom';
 import { getOrderHistory } from '../../redux/orderhistory/orderhistory.actions';
 import OrderHistoryItem from '../../components/orderhistory-item/orderhistory-item.component';
@@ -51,6 +50,7 @@ const OrdersPage = ({
 						<th className='processed'>
 							<span>Processed</span>
 						</th>
+						<th className='vdl'></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -60,22 +60,24 @@ const OrdersPage = ({
 						))}
 				</tbody>
 			</table>
-			<Pagination
-				count={Math.ceil(totalCount / itemsOnPage)}
-				page={Math.ceil(_start / itemsOnPage) + 1}
-				onChange={(e, p) => {
-					history.push({
-						pathname: '/orders',
-						search:
-							`?` +
-							queryString.stringify({
-								...parsed,
-								_start: itemsOnPage * (p - 1),
-								_end: itemsOnPage * p,
-							}),
-					});
-				}}
-			/>
+			{Math.ceil(totalCount / itemsOnPage) > 1 && (
+				<Pagination
+					count={Math.ceil(totalCount / itemsOnPage)}
+					page={Math.ceil(_start / itemsOnPage) + 1}
+					onChange={(e, p) => {
+						history.push({
+							pathname: '/orders',
+							search:
+								`?` +
+								queryString.stringify({
+									...parsed,
+									_start: itemsOnPage * (p - 1),
+									_end: itemsOnPage * p,
+								}),
+						});
+					}}
+				/>
+			)}
 		</div>
 	);
 };

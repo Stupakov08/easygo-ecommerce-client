@@ -5,17 +5,13 @@ import { debounce } from 'debounce';
 import {
 	CollectionItemContainer,
 	CollectionFooterContainer,
-	AddButtonCompact,
 	BackgroundImage,
 	NameContainer,
 	PriceContainer,
 	OrderBox,
 } from './product.styles';
 import Button from '../primitives/button.styles';
-import {
-	addItemSync,
-	toggleCartHiddenTimeOut,
-} from '../../redux/cart/cart.actions';
+import { addItemSync, toggleCartHidden } from '../../redux/cart/cart.actions';
 import { connect } from 'react-redux';
 const logo = require('./noimage.png');
 
@@ -51,7 +47,7 @@ const mapDispatchToProps = (dispatch) => ({
 	addItem: debounce(
 		(item) => {
 			dispatch(addItemSync(item));
-			dispatch(toggleCartHiddenTimeOut(2000));
+			dispatch(toggleCartHidden(false));
 		},
 		800,
 		true

@@ -36,6 +36,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				currentUser: null,
 			};
+		case UserActionTypes.UPDATE_PROFILE:
+			return {
+				...state,
+				currentUser: action.payload,
+			};
 		default:
 			return state;
 	}

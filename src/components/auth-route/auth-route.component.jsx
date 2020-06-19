@@ -9,7 +9,7 @@ const AuthRoute = ({ isAuth, ...props }) => {
 		<Redirect
 			to={{
 				pathname: '/signin',
-				state: { redirectUrl: props.path },
+				state: { redirectUrl: props.location.pathname },
 			}}
 		/>
 	);

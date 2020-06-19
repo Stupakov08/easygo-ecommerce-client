@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Button from '../../components/primitives/button.styles';
 
 import OverviewItem from '../../components/overview-item/overview-item.component';
 

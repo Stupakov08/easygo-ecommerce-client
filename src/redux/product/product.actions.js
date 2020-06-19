@@ -4,6 +4,9 @@ import dataManager from '../../utils/dataManagers/productManager';
 export const getListStart = () => ({
 	type: ProductActionTypes.GET_LIST_START,
 });
+export const clearList = () => ({
+	type: ProductActionTypes.CLEAR_LIST,
+});
 export const getProductStart = () => ({
 	type: ProductActionTypes.GET_PRODUCT_START,
 });

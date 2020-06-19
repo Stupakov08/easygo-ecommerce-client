@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { getCart } from '../../redux/cart/cart.actions';
 import { ReactComponent as Logo } from '../../assets/go.svg';
 import {
 	HeaderContainer,

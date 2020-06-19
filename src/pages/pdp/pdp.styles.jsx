@@ -3,15 +3,28 @@ import styled from 'styled-components';
 export const Page = styled.div`
 	display: flex;
 	padding-top: 40px;
+	padding-bottom: 40px;
+
+	@media screen and (max-width: 639px) {
+		flex-direction: column;
+		align-items: center;
+	}
 `;
 
 export const Left = styled.div`
 	width: 48%;
+	@media screen and (max-width: 639px) {
+		width: 100%;
+		margin-bottom: 20px;
+	}
 `;
 export const Right = styled.div`
 	width: 52%;
 	padding-left: 20px;
 	box-sizing: border-box;
+	@media screen and (max-width: 639px) {
+		width: 100%;
+	}
 `;
 export const LCarousel = styled.div`
 	height: 350px;
@@ -43,6 +56,11 @@ export const SCarousel = styled.div`
 		padding: 5px;
 		box-sizing: border-box;
 		display: flex;
+
+		@media screen and (max-width: 1023px) {
+			height: 60px;
+			width: 60px !important;
+		}
 
 		img {
 			margin: auto;

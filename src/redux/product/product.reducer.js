@@ -37,6 +37,12 @@ const productReducer = (state = INITIAL_STATE, action) => {
 				details: action.payload.details,
 				loading: false,
 			};
+		case ProductActionTypes.CLEAR_LIST:
+			return {
+				...state,
+				list: [],
+				pagination: INITIAL_STATE.pagination,
+			};
 
 		default:
 			return state;

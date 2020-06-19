@@ -3,9 +3,10 @@ import { getFingerprint } from '../../utils/getFingerPrint';
 import {
 	getTokens,
 	signUpAndgetTokens,
-	fetchWithAuth,
 	signOutUser,
+	updateUserProfile,
 } from '../../utils/AuthManager';
+
 import jwt from 'jwt-decode';
 
 export const emailSignInStart = () => ({
@@ -69,16 +70,19 @@ export const signOut = () => {
 	};
 };
 
-export const checkPrivateCall = () => {
+export const updateProfile = ({ id, name }) => {
 	return async (dispatch) => {
-		fetchWithAuth(`${process.env.REACT_APP_SERVER_URI}/check`, {
-			method: 'POST',
-		})
-			.then((res) => {})
-			.catch((err) => {});
+		updateUserProfile({ id, name }).then((res) => {
+			dispatch(
+				profileUpdated({ userId: res._id, name: res.name, email: res.email })
+			);
+		});
 	};
 };
-
+export const profileUpdated = (user) => ({
+	type: UserActionTypes.UPDATE_PROFILE,
+	payload: user,
+});
 export const clearUserError = () => ({
 	type: UserActionTypes.CLEAR_USER_ERROR,
 	payload: {

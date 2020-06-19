@@ -1,4 +1,4 @@
-import { fetchWithAuth, parseStatus } from '../AuthManager';
+import { parseStatus } from '../AuthManager';
 
 const CategoriesManager = {
 	getCategories: () => {

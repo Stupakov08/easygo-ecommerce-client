@@ -5,6 +5,17 @@ export const CollectionItemContainer = styled.div`
 	box-sizing: border-box;
 	padding: 20px;
 
+	@media screen and (max-width: 639px) {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 20px;
+		border-bottom: 1px solid #ececec;
+		margin-bottom: 20px;
+		&&:last-child {
+			border-bottom: none;
+		}
+	}
+
 	a,
 	a:hover,
 	a *,
@@ -47,6 +58,13 @@ export const NameContainer = styled.span`
 	font-weight: 400;
 	display: block;
 	height: 38px;
+	font-size: 18px;
+
+	@media screen and (max-width: 639px) {
+		font-size: 20px;
+		text-align: center;
+		padding-top: 5px;
+	}
 `;
 
 export const PriceContainer = styled.span`

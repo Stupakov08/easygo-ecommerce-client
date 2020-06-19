@@ -45,15 +45,19 @@ export const SearchAppBar = ({ history, getList }) => {
 	const [search, setSearch] = useState('');
 	const [focus, setFocus] = useState(false);
 	const ref = useRef();
+
 	const submitForm = (e) => {
 		e.preventDefault();
 		if (!focus) {
 			setFocus(true);
 			return ref.current.focus();
 		}
-		history.push(`/list?q=${search}`);
+		if (search.trim()) {
+			history.push(`/list?q=${search.trim()}`);
+		}
 		setFocus(false);
 	};
+
 	return (
 		<form className={classes.search} onSubmit={submitForm}>
 			<TextField

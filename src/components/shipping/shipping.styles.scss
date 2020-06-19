@@ -3,6 +3,9 @@
 	flex-direction: column;
 	box-sizing: border-box;
 	max-width: 400px;
+	@media screen and (max-width: 639px) {
+		max-width: 100%;
+	}
 
 	.title {
 		margin: 10px 0;
