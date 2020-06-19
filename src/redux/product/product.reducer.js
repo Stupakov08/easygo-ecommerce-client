@@ -6,8 +6,8 @@ const INITIAL_STATE = {
 	pagination: {
 		totalCount: 0,
 		_start: 0,
-		_end: 3,
-		itemsOnPage: 3,
+		_end: 6,
+		itemsOnPage: 6,
 	},
 };
 
